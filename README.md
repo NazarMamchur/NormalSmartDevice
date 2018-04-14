@@ -1,4 +1,4 @@
-# NormalSmartDevice #
+# NormalSmartDevice
 ## 1.	Мікроконтроллер ##
 
 ## 2.Сервер ##
