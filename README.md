@@ -1,0 +1,2 @@
+# NormalSmartDevice
+Begin
