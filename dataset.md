@@ -50,9 +50,9 @@ while True:
     if cv2.waitKey(1) == 13 or count == 100:  # Якщо буде натиснуто ентер або добавлено 100 зображень лиць, то цикл завершиться.
         break
 
-cap.release()#завершає відео зйомку
+cap.release()#завершує відео зйомку
 cv2.destroyAllWindows()
 print("Collecting Samples Complete")
 ```
 ### Результат виконання
-![відповідь](DataSet.jpg "Приклад відповіді")
+![відповідь](dataset.jpg "Приклад відповіді")
