@@ -29,7 +29,7 @@ def face_extractor(img):
         cropped_face = img[y:y + h, x:x + w]
     return cropped_face
 ```
-### Запускаємо відео
+### Знімаємо та зберігаємо 100 зображень лиць
 ```python 
 cap = cv2.VideoCapture(0) # Запускаємо відео
 count = 0 #Встановлюємо каунтер вже зроблених фото
