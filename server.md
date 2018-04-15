@@ -72,6 +72,20 @@ private boolean toPhoto (String base64String, String fileName) {
 }
 ```
 
+### Створення класу *Application* за допомогою Spring Boot, який запускатиме сервер
+```java
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+@SpringBootApplication
+public class Application {
+
+    public static void main(String[] args) {
+        SpringApplication.run(Application.class, args);
+    }
+}
+```
+
 ### Відповідь
 У результаті клієнт отримає відповідь на запит - **true** або **false** - відповідно до того, чи збережеться надіслане фото, чи ні.
 
