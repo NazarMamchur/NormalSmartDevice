@@ -10,6 +10,7 @@ for currentFile in currentDirectory.iterdir():
     model.read(str(currentFile))
     namelist.append(str(currentFile).split('\\')[1])
     list.append(model)
+
 def face_detector(img):
     gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
     faces = face_classifier.detectMultiScale(gray, 1.3, 5)
