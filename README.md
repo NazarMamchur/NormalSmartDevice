@@ -28,12 +28,12 @@ This function creates a directory named faces which will be contain a sub folder
  ```
  ### Take a photos
  This function reads images from your web cam and if face is on image it saves the image in subfolder that you have already created. In input this function takes number of photo which you want to be in your data set.
- ```
+ ```python
  CTD.start_creating_data_set(quantity)
  ```
  ### Train model
 This function create histograms from all images in subfolder and save this histogram in json file. In input this method has name of trained model. In order to program work successfully <strong>file_name</strong> must be the same as <strong>sub_directory_name</strong>.
-```
+ ```python
 CTD.trainModel(file_name)
 ```
 
