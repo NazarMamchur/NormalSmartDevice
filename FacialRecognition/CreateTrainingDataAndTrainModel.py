@@ -56,4 +56,4 @@ def trainModel(file_name):
 
 
     model.train(np.asarray(Training_Data), np.asarray(Labels))
-    model.save('./TrainedFaces/' + directory_name + '.json')
+    model.save('./TrainedFaces/' + file_name + '.json')
