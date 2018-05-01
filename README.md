@@ -13,7 +13,7 @@
  ## Creating DataSet
  ### Import CreateTrainingDataAndTrainModel.py
  First of all you need to import our module in file where you want to use it.
-  ```
+  ```python
   import NormalSmartDevice.FacialRecognition.CreateTrainingDataAndTrainModel as CTD
   ```
 ### Next step
