@@ -2,12 +2,12 @@ import cv2
 from os import makedirs
 import numpy as np
 from os import listdir
-from os.path import isfile, join
 face_classifier = cv2.CascadeClassifier('haarcascade_frontalface_default.xml')
-data_path = ""
+class DataPath:
+    data_path = ""
 def create_directory(directory_name):
-    data_path = './faces/' + directory_name + '/'
-    makedirs(data_path)
+    DataPath.data_path = './faces/' + directory_name + '.'  + str(len(listdir('./faces/')))  + '/'
+    makedirs(DataPath.data_path)
 def face_extractor(img):
     gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
     faces = face_classifier.detectMultiScale(gray, 1.3, 5)
@@ -26,9 +26,8 @@ def start_creating_data_set(quantity):
             count += 1
             face = cv2.resize(face_extractor(frame), (200, 200))
             face = cv2.cvtColor(face, cv2.COLOR_BGR2GRAY)
-            file_name_path = data_path + str(count) + '.jpg'
+            file_name_path = DataPath.data_path + str(count) + '.jpg'
             cv2.imwrite(file_name_path, face)
-
             cv2.putText(face, str(count), (50, 50), cv2.FONT_HERSHEY_COMPLEX, 1, (0, 255, 0), 2)
             cv2.imshow('Face Cropper', face)
         else:
@@ -40,20 +39,18 @@ def start_creating_data_set(quantity):
     cap.release()
     cv2.destroyAllWindows()
 
-def trainModel(file_name):
-    onlyfiles = [f for f in listdir(data_path) if isfile(join(data_path, f))]
-
+def trainModel():
+    dirs = listdir('./faces/')
     Training_Data, Labels = [], []
-
-    for i, files in enumerate(onlyfiles):
-        image_path = data_path + onlyfiles[i]
-        images = cv2.imread(image_path, cv2.IMREAD_GRAYSCALE)
-        Training_Data.append(np.asarray(images, dtype=np.uint8))
-        Labels.append(i)
-
-    Labels = np.asarray(Labels, dtype=np.int32)
+    for dir_name in dirs:
+        subfolder_list = listdir('./faces/' + dir_name + '/')
+        for images in subfolder_list:
+            faces = cv2.imread('./faces/'  + str(dir_name) + '/' + str(images))
+            gray = cv2.cvtColor(faces, cv2.COLOR_BGR2GRAY)
+            Training_Data.append(gray)
+            Labels.append(int(dir_name.split(".")[1]))
     model = cv2.face.LBPHFaceRecognizer_create()
+    model.train(Training_Data, np.asarray(Labels))
+    model.save('./TrainedFaces/DataBase.json')
 
-
-    model.train(np.asarray(Training_Data), np.asarray(Labels))
-    model.save('./TrainedFaces/' + file_name + '.json')
+trainModel()

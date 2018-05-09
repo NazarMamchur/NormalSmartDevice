@@ -1,15 +1,18 @@
 import cv2
 import pathlib
 
+from os import listdir
+
 face_classifier = cv2.CascadeClassifier('haarcascade_frontalface_default.xml')
 list = []
 namelist = []
 currentDirectory = pathlib.Path('./TrainedFaces/')
-for currentFile in currentDirectory.iterdir():
-    model = cv2.face.LBPHFaceRecognizer_create()
-    model.read(str(currentFile))
-    namelist.append(str(currentFile).split('\\')[1])
-    list.append(model)
+
+model = cv2.face.LBPHFaceRecognizer_create()
+model.read('./TrainedFaces/DataBase.json')
+class Name_confidance:
+    person_name = ''
+    confidence = 0
 
 def face_detector(img):
     gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
@@ -34,20 +37,19 @@ while True:
         try:
             face = cv2.cvtColor(face, cv2.COLOR_BGR2GRAY)
             min = 500
-
-            for i in range(0,len(list)):
-                results = list[i].predict(face)
-                print(i)
-                if(results[1] < min):
-                    min = results[1]
-                    index = i
-
+            results = model.predict(face)
+            if results[1] < min:
+                min = results[1]
+                dir = listdir('./faces/')
+                for folder in dir:
+                    if str(folder).split('.')[1] == str(results[0]):
+                        Name_confidance.person_name = str(folder).split('.')[0]
             if min < 500:
-                confidence = int(100 * (1 - (min) / 400))
-                display_string = str(confidence) + '% Confident it is ' + namelist[index].split('.')[0]
-            cv2.putText(image, display_string, (100, 120), cv2.FONT_HERSHEY_COMPLEX, 1, (255, 120, 150), 2)
+                Name_confidance.confidence = int(100 * (1 - (min) / 400))
+                display_string = str( Name_confidance.confidence) + '% Confident it is ' + Name_confidance.person_name
+                cv2.putText(image, display_string, (100, 120), cv2.FONT_HERSHEY_COMPLEX, 1, (255, 120, 150), 2)
 
-            if confidence > 75:
+            if  Name_confidance.confidence > 75:
                 cv2.putText(image, "Unlocked", (250, 450), cv2.FONT_HERSHEY_COMPLEX, 1, (0, 255, 0), 2)
                 cv2.imshow('Face Recognition', image)
             else:
